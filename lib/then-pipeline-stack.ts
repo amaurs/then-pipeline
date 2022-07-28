@@ -13,14 +13,10 @@ export class ThenPipelineStack extends Stack {
 
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.gitHub('amaurs/then-pipeline', 'main', {
-                    authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
+                    authentication: cdk.SecretValue.secretsManager('github/PersonalAccessToken'),
                 }),
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
       })
     });
   }
 }
-
-
-
-//aws secretsmanager  create-secret --name amaurs-github-access-token-secret --description "Github access token" --secret-string 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 --region us-east-1
