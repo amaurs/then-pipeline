@@ -7,6 +7,7 @@ const app = new cdk.App();
 
 console.log('ACCOUNT 👉🏽', process.env.ACCOUNT);
 console.log('REGION 🌎', process.env.REGION);
+console.log('GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME', process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME);
 
 new ThenPipelineStack(app, 'ThenPipelineStack', {
   env: { 
