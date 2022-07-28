@@ -15,6 +15,11 @@ export class ThenPipelineStack extends Stack {
         input: CodePipelineSource.gitHub('amaurs/then-pipeline', 'main', {
                     authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                 }),
+        env: {
+            'ACCOUNT': process.env.ACCOUNT!,
+            'REGION': process.env.REGION!,
+            'GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME': process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!,
+        },
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
       })
     });
