@@ -1,4 +1,69 @@
 # then-pipeline
+
+IAM permissions needed to run `cdk bootstrap`:
+
+```buildoutcfg
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "StsAccess",
+            "Effect": "Allow",
+            "Action": [
+                "sts:AssumeRole",
+                "iam:*Role*"
+            ],
+            "Resource": [
+                "arn:aws:iam::${AWS_ACCOUNT_ID}:role/cdk-*"
+            ]
+        },
+        {
+            "Action": [
+                "cloudformation:*"
+            ],
+            "Resource": [
+                "arn:aws:cloudformation:${AWS_REGION}:${AWS_ACCOUNT_ID}:stack/CDKToolkit/*"
+            ],
+            "Effect": "Allow"
+        },
+        {
+            "Sid": "S3Access",
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Sid": "ECRAccess",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:SetRepositoryPolicy",
+                "ecr:GetLifecyclePolicy",
+                "ecr:PutImageScanningConfiguration",
+                "ecr:DescribeRepositories",
+                "ecr:CreateRepository",
+                "ecr:DeleteRepository"
+            ],
+            "Resource": [
+                "arn:aws:ecr:${AWS_REGION}:${AWS_ACCOUNT_ID}:repository/cdk-*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ssm:GetParameter*",
+                "ssm:PutParameter*",
+                "ssm:DeleteParameter*"
+            ],
+            "Resource": "arn:aws:ssm:${AWS_REGION}:${AWS_ACCOUNT_ID}:parameter/cdk-bootstrap/*"
+        }
+    ]
+}
+```
+
 Pipeline for then project.
 
 Before running:
