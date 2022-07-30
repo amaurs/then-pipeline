@@ -24,7 +24,7 @@ export class ThenPipelineStack extends Stack {
             'REACT_APP_GA_ID': process.env.REACT_APP_GA_ID!,
             'FONT_S3_BUCKET': process.env.FONT_S3_BUCKET!,
         },
-        commands: ['npm ci', 'npm run build', 'npx cdk synth']
+        commands: ['npm ci', 'npm run build', 'npx cdk synth -vv']
       })
     });
 

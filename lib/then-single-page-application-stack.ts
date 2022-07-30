@@ -81,7 +81,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
 
         const project = new codebuild.Project(this, `then.gallery-build`, {
               buildSpec: codebuild.BuildSpec.fromObjectToYaml(fromYaml),
-              projectName: `$then.gallery-build`,
+              projectName: `then.gallery-build`,
               environment: {
                   buildImage: codebuild.LinuxBuildImage.STANDARD_3_0,
                   computeType: codebuild.ComputeType.SMALL,
