@@ -13,9 +13,12 @@ export class ThenPipelineStack extends Stack {
         input: CodePipelineSource.gitHub('amaurs/then', 'main', {
                     authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                 }),
+        additionalInputs: {
+            'src/fonts': CodePipelineSource.s3(process.env.FONT_S3_BUCKET!, '')
+        },
         primaryOutputDirectory: './build',
         commands: ['mkdir -p src/fonts',
-                   `aws s3 sync s3://${process.env.FONT_S3_BUCKET!}/ src/fonts`,
+                   'ls src/fonts',
                    'npm install terser@3.14.1 --save-dev',
                    'npm install',
                    'npm run build'],
