@@ -9,6 +9,17 @@ export class ThenPipelineStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+    const buildThen = new ShellStep('Prebuild', {
+        input: CodePipelineSource.gitHub('amaurs/then-pipeline', 'main', {
+                    authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
+                }),
+        commands: ['mkdir -p src/fonts',
+                   'aws s3 sync s3://$FONT_S3_BUCKET/ src/fonts',
+                   'npm install terser@3.14.1 --save-dev',
+                   'npm install',
+                   'npm run build'],
+    });
+
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'ThenPipeline',
 
@@ -16,6 +27,9 @@ export class ThenPipelineStack extends Stack {
         input: CodePipelineSource.gitHub('amaurs/then-pipeline', 'main', {
                     authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                 }),
+        additionalInputs: {
+            'then': buildThen
+        },
         env: {
             'ACCOUNT': process.env.ACCOUNT!,
             'REGION': process.env.REGION!,
