@@ -10,11 +10,12 @@ export class ThenPipelineStack extends Stack {
     super(scope, id, props);
 
     const buildThen = new ShellStep('Prebuild', {
-        input: CodePipelineSource.gitHub('amaurs/then-pipeline', 'main', {
+        input: CodePipelineSource.gitHub('amaurs/then', 'main', {
                     authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                 }),
+        primaryOutputDirectory: './build',
         commands: ['mkdir -p src/fonts',
-                   'aws s3 sync s3://$FONT_S3_BUCKET/ src/fonts',
+                   `aws s3 sync s3://${process.env.FONT_S3_BUCKET!}/ src/fonts`,
                    'npm install terser@3.14.1 --save-dev',
                    'npm install',
                    'npm run build'],
