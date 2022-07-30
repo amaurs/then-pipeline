@@ -12,5 +12,6 @@ console.log('GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME 👉🏽', process.env.GIT
 new ThenPipelineStack(app, 'ThenPipelineStack', {
   env: { 
       account: process.env.ACCOUNT, 
-      region: process.env.REGION },
+      region: process.env.REGION
+      },
 });
