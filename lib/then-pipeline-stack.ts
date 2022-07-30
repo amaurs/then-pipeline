@@ -21,6 +21,7 @@ export class ThenPipelineStack extends Stack {
             'REGION': process.env.REGION!,
             'GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME': process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!,
             'REACT_APP_API_HOST': process.env.REACT_APP_API_HOST!,
+            'REACT_APP_GA_ID': process.env.REACT_APP_GA_ID!,
             'FONT_S3_BUCKET': process.env.FONT_S3_BUCKET!,
         },
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
