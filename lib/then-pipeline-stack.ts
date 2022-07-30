@@ -19,6 +19,10 @@ export class ThenPipelineStack extends Stack {
                    'npm install terser@3.14.1 --save-dev',
                    'npm install',
                    'npm run build'],
+        env: {
+            'REACT_APP_API_HOST': process.env.REACT_APP_API_HOST!,
+            'REACT_APP_GA_ID': process.env.REACT_APP_GA_ID!,
+        }
     });
 
     const pipeline = new CodePipeline(this, 'Pipeline', {
@@ -35,9 +39,6 @@ export class ThenPipelineStack extends Stack {
             'ACCOUNT': process.env.ACCOUNT!,
             'REGION': process.env.REGION!,
             'GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME': process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!,
-            'REACT_APP_API_HOST': process.env.REACT_APP_API_HOST!,
-            'REACT_APP_GA_ID': process.env.REACT_APP_GA_ID!,
-            'FONT_S3_BUCKET': process.env.FONT_S3_BUCKET!,
         },
         commands: ['npm ci', 'npm run build', 'npx cdk synth -vv']
       })
