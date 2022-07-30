@@ -32,5 +32,20 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         );
 
         bucket.addToResourcePolicy(cloudfrontS3Access);
+
+        const webhooks: codebuild.FilterGroup[] = [
+            codebuild.FilterGroup.inEventOf(
+                codebuild.EventAction.PUSH,
+                codebuild.EventAction.PULL_REQUEST_MERGED).andHeadRefIs("main"),
+        ];
+
+        const repo = codebuild.Source.gitHub({
+            owner: "amaurs",
+            repo: "then",
+            webhook: true,
+            webhookFilters: webhooks,
+            reportBuildStatus: true,
+        });
+
     }
 }
