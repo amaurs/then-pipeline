@@ -79,9 +79,9 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         console.log('REACT_APP_GA_ID 👉🏽', process.env.REACT_APP_GA_ID);
         console.log('FONT_S3_BUCKET 👉🏽', process.env.FONT_S3_BUCKET);
 
-        const project = new codebuild.Project(this, `then.gallery-build`, {
+        const project = new codebuild.Project(this, `then-gallery-build`, {
               buildSpec: codebuild.BuildSpec.fromObjectToYaml(fromYaml),
-              projectName: `then.gallery-build`,
+              projectName: `then-gallery-build`,
               environment: {
                   buildImage: codebuild.LinuxBuildImage.STANDARD_3_0,
                   computeType: codebuild.ComputeType.SMALL,
