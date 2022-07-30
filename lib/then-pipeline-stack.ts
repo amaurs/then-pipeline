@@ -1,5 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Stack, StackProps } from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import { ThenAppStage } from './then-app-stage';
@@ -14,7 +15,7 @@ export class ThenPipelineStack extends Stack {
                     authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                 }),
         additionalInputs: {
-            'src/fonts': CodePipelineSource.s3(process.env.FONT_S3_BUCKET!, '')
+            'src/fonts': CodePipelineSource.s3(s3.Bucket.fromBucketName(this, "FontBucket", process.env.FONT_S3_BUCKET!), '/')
         },
         primaryOutputDirectory: './build',
         commands: ['mkdir -p src/fonts',
