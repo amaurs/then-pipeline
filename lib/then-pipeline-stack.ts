@@ -2,6 +2,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
+import { ThenAppStage } from './then-app-stage';
 
 
 export class ThenPipelineStack extends Stack {
@@ -19,9 +20,15 @@ export class ThenPipelineStack extends Stack {
             'ACCOUNT': process.env.ACCOUNT!,
             'REGION': process.env.REGION!,
             'GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME': process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!,
+            'REACT_APP_API_HOST': process.env.REACT_APP_API_HOST!,
+            'FONT_S3_BUCKET': process.env.FONT_S3_BUCKET!,
         },
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
       })
     });
+
+    pipeline.addStage(new ThenAppStage(this, "Prod", {
+      env: { account: process.env.ACCOUNT!, region: process.env.REGION! }
+    }));
   }
 }
