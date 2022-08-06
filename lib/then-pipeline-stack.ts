@@ -46,6 +46,7 @@ export class ThenPipelineStack extends Stack {
             'npm ci',
             'npm run build',
             'cd ..',
+            'cat .gitignore',
             'npm ci', 'npm run build', 'npx cdk synth --debug']
       })
     });
