@@ -7,6 +7,7 @@ import { Function, InlineCode, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { aws_certificatemanager as certificate_manager } from 'aws-cdk-lib';
 import { aws_cloudfront as cloudfront } from 'aws-cdk-lib';
 import { aws_route53 as route53 } from 'aws-cdk-lib';
+import { aws_route53_targets as route53_targets } from 'aws-cdk-lib';
 import { aws_codebuild as codebuild } from 'aws-cdk-lib';
 import * as path from 'path';
 
@@ -79,11 +80,17 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
           cloudFrontDistProps
         );
 
+        new route53.ARecord(this, 'Alias', {
+            zone: hostedZone,
+            target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
+        });
+
         new s3_deployment.BucketDeployment(this, 'ThenBucketDeployment', {
             sources: [s3_deployment.Source.asset(path.join(__dirname, '../then/build'))],
             destinationBucket: bucket,
             distribution: cloudfrontDist,
             distributionPaths: ['/index.html'],
         });
+
     }
 }
