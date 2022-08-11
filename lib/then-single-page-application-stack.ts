@@ -71,7 +71,21 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
                     sslSupportMethod: 'sni-only',
                     minimumProtocolVersion: 'TLSv1.1_2016',
                 }
-            }
+            },
+            errorConfigurations: [
+                {
+                    errorCode: 403,
+                    errorCachingMinTtl: 10,
+                    responseCode: 403,
+                    responsePagePath: '/index.html',
+                },
+                {
+                    errorCode: 404,
+                    errorCachingMinTtl: 10,
+                    responseCode: 404,
+                    responsePagePath: '/index.html',
+                },
+            ]
         };
 
         const cloudfrontDist = new cloudfront.CloudFrontWebDistribution(
