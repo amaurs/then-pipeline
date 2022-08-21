@@ -25,7 +25,7 @@ export class ThenPipelineStack extends Stack {
                     authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                 }),
         additionalInputs: {
-            'then': CodePipelineSource.gitHub('amaurs/then', 'feature-update', {
+            'then': CodePipelineSource.gitHub('amaurs/then', 'main', {
                         authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                     }),
             'fonts': CodePipelineSource.s3(fontBucket, 'fonts.zip')
