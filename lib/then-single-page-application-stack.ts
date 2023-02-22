@@ -50,6 +50,11 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
 
         const certificate = new certificate_manager.Certificate(this, 'ThenCertificate', {
             domainName: primaryDomain,
+            subjectAlternativeNames: [
+                `api.${primaryDomain}`, 
+                `blog.${primaryDomain}`,
+                `if.${primaryDomain}`,
+                ],
             validation: certificate_manager.CertificateValidation.fromDns(hostedZone),
         });
 
