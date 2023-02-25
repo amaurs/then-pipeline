@@ -99,6 +99,13 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
 
         new route53.ARecord(this, 'Alias', {
             zone: hostedZone,
+            recordName: `${primaryDomain}`,
+            target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
+        });
+
+        new route53.ARecord(this, 'Alias', {
+            zone: hostedZone,
+            recordName: `blog.${primaryDomain}`,
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
         });
 
