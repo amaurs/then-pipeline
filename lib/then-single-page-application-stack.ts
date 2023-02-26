@@ -98,13 +98,13 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
           cloudFrontDistProps
         );
 
-        new route53.ARecord(this, 'AphexDomainAlias', {
+        new route53.ARecord(this, 'ThenDomainAlias', {
             zone: hostedZone,
             recordName: `${primaryDomain}`,
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
         });
 
-        new route53.ARecord(this, 'BlogDomainAlias', {
+        new route53.ARecord(this, 'ThenBlogDomainAlias', {
             zone: hostedZone,
             recordName: `blog.${primaryDomain}`,
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
