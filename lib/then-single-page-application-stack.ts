@@ -16,7 +16,8 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        const primaryDomain = 'then.gallery'
+        const primaryDomain = 'then.gallery';
+        const blogDomain = `blog.${primaryDomain}`;
 
         console.log('Creating the bucket');
         const bucket = new s3.Bucket(this, "ThenSinglePageApplicationBucket", {
@@ -51,7 +52,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         const certificate = new certificate_manager.Certificate(this, 'ThenCertificate', {
             domainName: primaryDomain,
             subjectAlternativeNames: [
-                `blog.${primaryDomain}`,
+                blogDomain,
                 ],
             validation: certificate_manager.CertificateValidation.fromDns(hostedZone),
         });
@@ -68,7 +69,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
                 },
             ],
             viewerCertificate: {
-                aliases: [primaryDomain],
+                aliases: [primaryDomain, blogDomain],
                 props: {
                     acmCertificateArn: certificate.certificateArn,
                     sslSupportMethod: 'sni-only',
