@@ -18,6 +18,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
 
         const primaryDomain = 'then.gallery';
         const blogDomain = `blog.${primaryDomain}`;
+        const aboutDomain = `about.${primaryDomain}`;
 
         console.log('Creating the bucket');
         const bucket = new s3.Bucket(this, "ThenSinglePageApplicationBucket", {
@@ -53,6 +54,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
             domainName: primaryDomain,
             subjectAlternativeNames: [
                 blogDomain,
+                aboutDomain,
                 ],
             validation: certificate_manager.CertificateValidation.fromDns(hostedZone),
         });
@@ -69,7 +71,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
                 },
             ],
             viewerCertificate: {
-                aliases: [primaryDomain, blogDomain],
+                aliases: [primaryDomain, blogDomain, aboutDomain],
                 props: {
                     acmCertificateArn: certificate.certificateArn,
                     sslSupportMethod: 'sni-only',
@@ -107,6 +109,12 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         new route53.ARecord(this, 'ThenBlogDomainAlias', {
             zone: hostedZone,
             recordName: `blog.${primaryDomain}`,
+            target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
+        });
+
+        new route53.ARecord(this, 'ThenAboutDomainAlias', {
+            zone: hostedZone,
+            recordName: `about.${primaryDomain}`,
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
         });
 
