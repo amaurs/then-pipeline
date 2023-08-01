@@ -43,7 +43,6 @@ export class ThenPipelineStack extends Stack {
             'cp -r fonts/* then/src/fonts',
             'cd then',  // path from project root to React app package.json
             'npm install terser@3.14.1 --save-dev',
-            'npm install  @types/react-beautiful-dnd --save-dev',
             'npm ci',
             'npm run build',
             'cd ..',
