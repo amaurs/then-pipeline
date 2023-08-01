@@ -20,6 +20,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         const blogDomain = `blog.${primaryDomain}`;
         const aboutDomain = `about.${primaryDomain}`;
         const intoDomain = `into.${primaryDomain}`;
+        const porotoDomain = `poroto.${primaryDomain}`;
 
         console.log('Creating the bucket');
         const bucket = new s3.Bucket(this, "ThenSinglePageApplicationBucket", {
@@ -42,7 +43,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         cloudfrontS3Access.addResources(bucket.bucketArn);
         cloudfrontS3Access.addResources(`${bucket.bucketArn}/*`);
         cloudfrontS3Access.addCanonicalUserPrincipal(
-          cloudFrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId
+            cloudFrontOAI.cloudFrontOriginAccessIdentityS3CanonicalUserId
         );
 
         bucket.addToResourcePolicy(cloudfrontS3Access);
@@ -57,7 +58,8 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
                 blogDomain,
                 aboutDomain,
                 intoDomain,
-                ],
+                porotoDomain,
+            ],
             validation: certificate_manager.CertificateValidation.fromDns(hostedZone),
         });
 
@@ -73,7 +75,13 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
                 },
             ],
             viewerCertificate: {
-                aliases: [primaryDomain, blogDomain, aboutDomain, intoDomain],
+                aliases: [
+                    primaryDomain,
+                    blogDomain,
+                    aboutDomain,
+                    intoDomain,
+                    porotoDomain,
+                ],
                 props: {
                     acmCertificateArn: certificate.certificateArn,
                     sslSupportMethod: 'sni-only',
@@ -97,9 +105,9 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         };
 
         const cloudfrontDist = new cloudfront.CloudFrontWebDistribution(
-          this,
-          'ThenCloudFrontDistribution',
-          cloudFrontDistProps
+            this,
+            'ThenCloudFrontDistribution',
+            cloudFrontDistProps
         );
 
         new route53.ARecord(this, 'ThenDomainAlias', {
@@ -123,6 +131,12 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         new route53.ARecord(this, 'ThenIntoDomainAlias', {
             zone: hostedZone,
             recordName: `into.${primaryDomain}`,
+            target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
+        });
+
+        new route53.ARecord(this, 'ThenPorotoDomainAlias', {
+            zone: hostedZone,
+            recordName: `poroto.${primaryDomain}`,
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
         });
 
