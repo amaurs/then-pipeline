@@ -49,7 +49,7 @@ export class ThenPipelineStack extends Stack {
             'cp -r fonts/* then/src/fonts',
             'cd then',  // path from project root to React app package.json
             'npm ci --legacy-peer-deps',
-            'npm run build',
+            'VITE_API_HOST=$VITE_API_HOST VITE_GA_ID=$VITE_GA_ID npm run build',
             'cd ..',
             'npm ci',
             'npm run build',
