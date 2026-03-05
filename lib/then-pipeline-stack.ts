@@ -19,6 +19,11 @@ export class ThenPipelineStack extends Stack {
 
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'ThenPipeline',
+      codeBuildDefaults: {
+        buildEnvironment: {
+          buildImage: cdk.aws_codebuild.LinuxBuildImage.STANDARD_7_0,
+        },
+      },
 
       synth: new ShellStep('Build', {
         input: CodePipelineSource.gitHub('amaurs/then-pipeline', 'main', {
@@ -34,19 +39,21 @@ export class ThenPipelineStack extends Stack {
             'ACCOUNT': process.env.ACCOUNT!,
             'REGION': process.env.REGION!,
             'GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME': process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!,
-            'REACT_APP_API_HOST': process.env.REACT_APP_API_HOST!,
-            'REACT_APP_GA_ID': process.env.REACT_APP_GA_ID!,
+            'VITE_API_HOST': process.env.REACT_APP_API_HOST!,
+            'VITE_GA_ID': process.env.REACT_APP_GA_ID!,
             'FONT_S3_BUCKET': process.env.FONT_S3_BUCKET!,
         },
         primaryOutputDirectory: "cdk.out",
         commands: [
+            'n 20',
             'cp -r fonts/* then/src/fonts',
             'cd then',  // path from project root to React app package.json
-            'npm install terser@3.14.1 --save-dev',
-            'npm ci',
+            'npm ci --legacy-peer-deps',
             'npm run build',
             'cd ..',
-            'npm ci', 'npm run build', 'npx cdk synth --debug']
+            'npm ci',
+            'npm run build',
+            'npx cdk synth']
       })
     });
 

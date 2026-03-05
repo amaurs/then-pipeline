@@ -150,7 +150,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         });
 
         new s3_deployment.BucketDeployment(this, 'ThenBucketDeployment', {
-            sources: [s3_deployment.Source.asset(path.join(__dirname, '../then/build'))],
+            sources: [s3_deployment.Source.asset(path.join(__dirname, '../then/dist'))],
             destinationBucket: bucket,
             distribution: cloudfrontDist,
             distributionPaths: ['/index.html'],
