@@ -41,6 +41,7 @@ export class ThenPipelineStack extends Stack {
             'GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME': process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!,
             'VITE_API_HOST': process.env.VITE_API_HOST!,
             'VITE_GA_ID': process.env.VITE_GA_ID!,
+            'VITE_GOOGLE_CLIENT_ID': process.env.VITE_GOOGLE_CLIENT_ID!,
             'FONT_S3_BUCKET': process.env.FONT_S3_BUCKET!,
         },
         primaryOutputDirectory: "cdk.out",

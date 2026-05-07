@@ -18,7 +18,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
 
         const primaryDomain = 'then.gallery';
         const blogDomain = `blog.${primaryDomain}`;
-        const aboutDomain = `about.${primaryDomain}`;
+        const aboutDomain = `do.${primaryDomain}`;
         const intoDomain = `into.${primaryDomain}`;
         const babyDomain = `baby.${primaryDomain}`;
         const porotoDomain = `poroto.${primaryDomain}`;
@@ -127,7 +127,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
 
         new route53.ARecord(this, 'ThenAboutDomainAlias', {
             zone: hostedZone,
-            recordName: `about.${primaryDomain}`,
+            recordName: `do.${primaryDomain}`,
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
         });
 
