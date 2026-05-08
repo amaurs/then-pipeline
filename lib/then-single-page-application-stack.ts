@@ -20,7 +20,6 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         const blogDomain = `blog.${primaryDomain}`;
         const machineDomain = `machine.${primaryDomain}`;
         const intoDomain = `into.${primaryDomain}`;
-        const babyDomain = `baby.${primaryDomain}`;
         const porotoDomain = `poroto.${primaryDomain}`;
 
         console.log('Creating the bucket');
@@ -59,7 +58,6 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
                 blogDomain,
                 machineDomain,
                 intoDomain,
-                babyDomain,
                 porotoDomain,
             ],
             validation: certificate_manager.CertificateValidation.fromDns(hostedZone),
@@ -82,7 +80,6 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
                     blogDomain,
                     machineDomain,
                     intoDomain,
-                    babyDomain,
                     porotoDomain,
                 ],
                 props: {
@@ -134,12 +131,6 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
         new route53.ARecord(this, 'ThenIntoDomainAlias', {
             zone: hostedZone,
             recordName: `into.${primaryDomain}`,
-            target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
-        });
-
-        new route53.ARecord(this, 'ThenFlyerDomainAlias', {
-            zone: hostedZone,
-            recordName: `baby.${primaryDomain}`,
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
         });
 
