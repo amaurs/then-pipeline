@@ -13,6 +13,7 @@ export class ThenPipelineStack extends Stack {
 
 
     const fontBucket = s3.Bucket.fromBucketName(this, "FontBucket1", process.env.FONT_S3_BUCKET!);
+    const assetsBucket = s3.Bucket.fromBucketName(this, "AssetsBucket", process.env.ASSETS_S3_BUCKET!);
 
 
     console.log('Just before pipeline creation.');
@@ -33,7 +34,8 @@ export class ThenPipelineStack extends Stack {
             'then': CodePipelineSource.gitHub('amaurs/then', 'main', {
                         authentication: cdk.SecretValue.secretsManager(process.env.GITHUB_PERSONAL_ACCESS_TOKEN_SECRET_NAME!),
                     }),
-            'fonts': CodePipelineSource.s3(fontBucket, 'fonts.zip')
+            'fonts': CodePipelineSource.s3(fontBucket, 'fonts.zip'),
+            'books': CodePipelineSource.s3(assetsBucket, 'books.zip')
         },
         env: {
             'ACCOUNT': process.env.ACCOUNT!,
@@ -43,11 +45,13 @@ export class ThenPipelineStack extends Stack {
             'VITE_GA_ID': process.env.VITE_GA_ID!,
             'VITE_GOOGLE_CLIENT_ID': process.env.VITE_GOOGLE_CLIENT_ID!,
             'FONT_S3_BUCKET': process.env.FONT_S3_BUCKET!,
+            'ASSETS_S3_BUCKET': process.env.ASSETS_S3_BUCKET!,
         },
         primaryOutputDirectory: "cdk.out",
         commands: [
             'n 20',
             'cp -r fonts/* then/src/fonts',
+            'cp -r books then/public/',
             'cd then',  // path from project root to React app package.json
             'npm ci --legacy-peer-deps',
             'npm run build',
