@@ -145,6 +145,7 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
             destinationBucket: bucket,
             distribution: cloudfrontDist,
             distributionPaths: ['/index.html'],
+            memoryLimit: 1024,
         });
 
     }
