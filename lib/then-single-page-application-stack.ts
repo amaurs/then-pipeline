@@ -140,6 +140,12 @@ export class ThenSinglePageApplicationStack extends cdk.Stack {
             target: route53.RecordTarget.fromAlias(new route53_targets.CloudFrontTarget(cloudfrontDist)),
         });
 
+        new route53.TxtRecord(this, 'ThenGoogleSiteVerification', {
+            zone: hostedZone,
+            recordName: primaryDomain,
+            values: ['google-site-verification=5N_zpCyA8W8vr_d_nQyLz_KZXDtgHZqn-3BORnT9Jxo'],
+        });
+
         new s3_deployment.BucketDeployment(this, 'ThenBucketDeployment', {
             sources: [s3_deployment.Source.asset(path.join(__dirname, '../then/dist'))],
             destinationBucket: bucket,
